@@ -2,39 +2,34 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the code from the Git repository
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                // Compile Java code
-                sh 'javac Helloworld.java'
+                // Build the project using Maven
+                sh 'mvn clean install'
             }
         }
 
         stage('Test') {
             steps {
-                // Add testing steps if needed
+                // Run tests using Maven (assuming JUnit is configured in your project)
+                sh 'mvn test'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Add deployment steps if needed
+                // Add deployment steps here if needed
+                echo 'Deployment steps go here...'
             }
         }
     }
 
     post {
         success {
-            echo 'Build successful!'
+            echo 'Pipeline successful! Ready for production deployment.'
         }
         failure {
-            echo 'Build failed!'
+            echo 'Pipeline failed! Please check the build logs for errors.'
         }
     }
 }
